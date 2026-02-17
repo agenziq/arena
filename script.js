@@ -48,6 +48,7 @@ const optionMap = {
 
 const state = {
   idx: 0,
+  minigameDone: false,
   answers: {},
   scores: Object.fromEntries(Object.keys(data.archetypes).map(a => [a, 0])),
   badges: new Set(),
@@ -120,8 +121,12 @@ function branchPrompt(prompt){
 
 let timerInt;
 function renderPrompt(){
+  if(state.idx === 6 && !state.minigameDone){
+    startMinigame();
+    return;
+  }
   const p = branchPrompt(data.prompts[state.idx]);
-  if(!p){ startMinigame(); return; }
+  if(!p){ renderResults(); return; }
   showScene("promptScene");
   el.actTitle.textContent = `Act ${p.act}: ${["","Awakening","Trial","Verdict"][p.act]}`;
   el.rivalPop.textContent = ["Cute answer incoming.","Be honest. It’s faster.","No pressure. Just your entire identity."][Math.floor(Math.random()*3)];
@@ -148,6 +153,8 @@ function renderPrompt(){
 
 function selectOption(prompt, index, op){
   clearInterval(timerInt);
+  const buttons = el.options.querySelectorAll("button");
+  buttons.forEach(btn => btn.disabled = true);
   playClick();
   state.answers[prompt.id] = op;
   const base = optionMap[prompt.id][index];
@@ -184,6 +191,7 @@ function impact(text){ el.impactText.textContent = text; setTimeout(()=>el.impac
 
 function endMinigame(score){
   el.gameArea.innerHTML = "";
+  state.minigameDone = true;
   if(score >= 10) { state.scores["The Silent Operator"] += 2; state.badges.add("Distraction Slayer"); }
   else if(score >= 6) state.scores["The Hidden Architect"] += 1;
   else state.scores["The Distracted Warrior"] += 2;
@@ -289,7 +297,7 @@ function initParallax(){
 }
 
 function reset(){
-  Object.assign(state, { idx:0, answers:{}, scores:Object.fromEntries(Object.keys(data.archetypes).map(a=>[a,0])), badges:new Set(state.easterClicks>=5?["Awakened"]:[]), gameScore:0, archetype:null });
+  Object.assign(state, { idx:0, minigameDone:false, answers:{}, scores:Object.fromEntries(Object.keys(data.archetypes).map(a=>[a,0])), badges:new Set(state.easterClicks>=5?["Awakened"]:[]), gameScore:0, archetype:null });
   el.intensityBar.value = 0;
   renderLanding();
 }
