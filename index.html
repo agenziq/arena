@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE ARENA: Identity Awakening Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div id="cinematicOverlay" class="cinematic-overlay" aria-hidden="true"></div>
+
+  <main id="app" class="app" role="main">
+    <header class="topbar">
+      <button id="soundToggle" class="small-btn" aria-pressed="false">🔊 Sound</button>
+      <button id="cinematicToggle" class="small-btn" aria-pressed="false">🎬 Cinematic Mode</button>
+      <div class="intensity-wrap">
+        <label for="intensityBar">Arena Intensity</label>
+        <progress id="intensityBar" max="100" value="0"></progress>
+      </div>
+    </header>
+
+    <section id="landing" class="scene active" aria-live="polite">
+      <h1 id="arenaTitle" class="title">THE ARENA</h1>
+      <p class="subtitle">Identity isn’t found. It’s forged.</p>
+      <div class="dialogue">
+        <p id="narratorLine" class="narrator"></p>
+        <p id="rivalLine" class="rival"></p>
+      </div>
+      <button id="startBtn" class="primary-btn">Enter Simulation</button>
+      <p id="easterEggMsg" class="easter-egg hidden">You were never ‘behind’. You were just asleep.</p>
+    </section>
+
+    <section id="promptScene" class="scene" aria-live="polite">
+      <h2 id="actTitle"></h2>
+      <div class="prompt-card">
+        <p id="promptNarrator" class="narrator"></p>
+        <div id="timerWrap" class="timer-wrap hidden">
+          <span>Truth window:</span> <span id="timer">7</span>s
+        </div>
+        <div id="options" class="options"></div>
+      </div>
+      <p id="rivalPop" class="rival pop"></p>
+    </section>
+
+    <section id="minigameScene" class="scene" aria-live="polite">
+      <h2>Boss Fight: Dodge Distraction</h2>
+      <p id="minigameNarrator" class="narrator"></p>
+      <p id="minigameRival" class="rival"></p>
+      <div class="hud">Time: <span id="gameTime">6.0</span> | Score: <span id="gameScore">0</span></div>
+      <div id="gameArea" class="game-area" role="application" aria-label="Tap distractions"></div>
+      <p id="impactText" class="impact"></p>
+    </section>
+
+    <section id="resultScene" class="scene" aria-live="polite">
+      <h2 id="archetypeTitle"></h2>
+      <div id="resultDetails" class="result-details"></div>
+      <div id="badges" class="badges"></div>
+      <div class="split-choice">
+        <button id="comfortBtn" class="secondary-btn">Return to Comfort</button>
+        <button id="arenaBtn" class="primary-btn">Enter the Arena</button>
+      </div>
+    </section>
+
+    <section id="endingScene" class="scene" aria-live="polite">
+      <div id="endingContent"></div>
+      <canvas id="shareCard" width="1080" height="1350" class="share-canvas" aria-label="share card preview"></canvas>
+      <div class="share-controls">
+        <button id="toggleQuoteBtn" class="small-btn">Use Roast Line</button>
+        <button id="downloadCardBtn" class="primary-btn">Download Share Card</button>
+        <button id="downloadPdfBtn" class="primary-btn">Download Protocol PDF</button>
+        <button id="replayBtn" class="secondary-btn">Replay Experience</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
